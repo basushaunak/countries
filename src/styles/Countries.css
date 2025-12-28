@@ -1,0 +1,9 @@
+.countries {
+  width: 90%;
+  margin-block: 20px;
+  margin-inline: auto;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  justify-content: center;
+}
