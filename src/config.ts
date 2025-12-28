@@ -12,7 +12,7 @@ export interface Country  {
     "isd_code": string,
     "cctld": string,
     "countryDescription": string,
-    "countryFlag": "🇩🇿",
+    "countryFlag": string,
     "countryImage": Blob | null,
     "continent": string
   }
