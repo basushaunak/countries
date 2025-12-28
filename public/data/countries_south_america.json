@@ -1,0 +1,165 @@
+[
+  {
+    "name": "Argentina",
+    "capital": "Buenos Aires",
+    "population": 46000000,
+    "independenceOrFormation": "1816",
+    "formerColonialPower": "Spain",
+    "isd_code": "+54",
+    "cctld": ".ar",
+    "countryDescription": "",
+    "countryFlag": "🇦🇷",
+    "countryImage": null,
+    "continent": "South America"
+  },
+
+  {
+    "name": "Bolivia",
+    "capital": "Sucre",
+    "population": 12000000,
+    "independenceOrFormation": "1825",
+    "formerColonialPower": "Spain",
+    "isd_code": "+591",
+    "cctld": ".bo",
+    "countryDescription": "",
+    "countryFlag": "🇧🇴",
+    "countryImage": null,
+    "continent": "South America"
+  },
+  {
+    "name": "Brazil",
+    "capital": "Brasília",
+    "population": 203000000,
+    "independenceOrFormation": "1822",
+    "formerColonialPower": "Portugal",
+    "isd_code": "+55",
+    "cctld": ".br",
+    "countryDescription": "",
+    "countryFlag": "🇧🇷",
+    "countryImage": null,
+    "continent": "South America"
+  },
+
+  {
+    "name": "Chile",
+    "capital": "Santiago",
+    "population": 20000000,
+    "independenceOrFormation": "1818",
+    "formerColonialPower": "Spain",
+    "isd_code": "+56",
+    "cctld": ".cl",
+    "countryDescription": "",
+    "countryFlag": "🇨🇱",
+    "countryImage": null,
+    "continent": "South America"
+  },
+  {
+    "name": "Colombia",
+    "capital": "Bogotá",
+    "population": 52000000,
+    "independenceOrFormation": "1810",
+    "formerColonialPower": "Spain",
+    "isd_code": "+57",
+    "cctld": ".co",
+    "countryDescription": "",
+    "countryFlag": "🇨🇴",
+    "countryImage": null,
+    "continent": "South America"
+  },
+
+  {
+    "name": "Ecuador",
+    "capital": "Quito",
+    "population": 18000000,
+    "independenceOrFormation": "1822",
+    "formerColonialPower": "Spain",
+    "isd_code": "+593",
+    "cctld": ".ec",
+    "countryDescription": "",
+    "countryFlag": "🇪🇨",
+    "countryImage": null,
+    "continent": "South America"
+  },
+
+  {
+    "name": "Guyana",
+    "capital": "Georgetown",
+    "population": 800000,
+    "independenceOrFormation": "1966",
+    "formerColonialPower": "United Kingdom",
+    "isd_code": "+592",
+    "cctld": ".gy",
+    "countryDescription": "",
+    "countryFlag": "🇬🇾",
+    "countryImage": null,
+    "continent": "South America"
+  },
+
+  {
+    "name": "Paraguay",
+    "capital": "Asunción",
+    "population": 7200000,
+    "independenceOrFormation": "1811",
+    "formerColonialPower": "Spain",
+    "isd_code": "+595",
+    "cctld": ".py",
+    "countryDescription": "",
+    "countryFlag": "🇵🇾",
+    "countryImage": null,
+    "continent": "South America"
+  },
+  {
+    "name": "Peru",
+    "capital": "Lima",
+    "population": 34000000,
+    "independenceOrFormation": "1821",
+    "formerColonialPower": "Spain",
+    "isd_code": "+51",
+    "cctld": ".pe",
+    "countryDescription": "",
+    "countryFlag": "🇵🇪",
+    "countryImage": null,
+    "continent": "South America"
+  },
+
+  {
+    "name": "Suriname",
+    "capital": "Paramaribo",
+    "population": 620000,
+    "independenceOrFormation": "1975",
+    "formerColonialPower": "Netherlands",
+    "isd_code": "+597",
+    "cctld": ".sr",
+    "countryDescription": "",
+    "countryFlag": "🇸🇷",
+    "countryImage": null,
+    "continent": "South America"
+  },
+
+  {
+    "name": "Uruguay",
+    "capital": "Montevideo",
+    "population": 3500000,
+    "independenceOrFormation": "1828",
+    "formerColonialPower": "Brazil",
+    "isd_code": "+598",
+    "cctld": ".uy",
+    "countryDescription": "",
+    "countryFlag": "🇺🇾",
+    "countryImage": null,
+    "continent": "South America"
+  },
+  {
+    "name": "Venezuela",
+    "capital": "Caracas",
+    "population": 28000000,
+    "independenceOrFormation": "1811",
+    "formerColonialPower": "Spain",
+    "isd_code": "+58",
+    "cctld": ".ve",
+    "countryDescription": "",
+    "countryFlag": "🇻🇪",
+    "countryImage": null,
+    "continent": "South America"
+  }
+]
