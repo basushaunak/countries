@@ -1,0 +1,14 @@
+.filter-box{
+    display: flex;
+    font-size: 24px;
+    font-weight: bold;
+    gap: 1em;
+    margin-inline: auto;
+    margin-block: 2rem;
+    max-width: fit-content;
+    justify-content: center;
+    align-items: center;
+}
+.filter-box > button{
+    padding: 0.25rem 2rem;
+}
