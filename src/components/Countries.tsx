@@ -9,7 +9,7 @@ export default function Countries({countries}:CountriesProps) {
   return (
     <div className="countries">
       {countries.map((country:Country) => {
-        return <Card country={country} />;
+        return <Card country={country} key={country.cctld}/>;
       })}
     </div>
   );

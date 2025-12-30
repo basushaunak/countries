@@ -94,14 +94,17 @@ export async function getCountries(): Promise<Country[]> {
     } else {
       console.log("Data loaded from IndexedDB.");
     }
-    const tmpCountries = await hydrateCountrySummary(countries);
-    await saveCountriesDB(tmpCountries);
-    return tmpCountries;
+    const tmpCountriesWithInfo = await hydrateCountrySummary(countries);
+//    const tmpcountriesWithMap = await hydrateCountryMaps(tmpCountriesWithInfo);
+    await saveCountriesDB(tmpCountriesWithInfo);
+    return tmpCountriesWithInfo;
   } catch (error) {
     console.error("Error in getCountriesData:", error);
     return [];
   }
 }
+
+//Update brief country intro from wikipedia.
 
 async function hydrateCountrySummary(countryList: Country[]) {
   const hydratedCountries = await Promise.all(
@@ -132,4 +135,45 @@ async function fetchCountrySummary(countryName: string): Promise<WikiSummary> {
   }
 
   return res.json();
+}
+
+
+// Maps check and understand before incorporating.
+
+async function hydrateCountryMaps(
+  countries: Country[]
+): Promise<Country[]> {
+  return Promise.all(
+    countries.map(async (country) => {
+      if (country.countryImage) return country;
+
+      const blob = await fetchCountryMap(country.country);
+
+      return {
+        ...country,
+        countryImage: blob,
+      };
+    })
+  );
+}
+
+function getCountryMapUrl(countryName: string): string {
+  const encoded = encodeURIComponent(countryName);
+
+  return `https://commons.wikimedia.org/wiki/Special:FilePath/${encoded}%20location%20map.svg`;
+}
+
+async function fetchCountryMap(
+  countryName: string
+): Promise<Blob | null> {
+  const url = getCountryMapUrl(countryName);
+
+  const res = await fetch(url);
+
+  if (!res.ok) {
+    console.warn(`Failed to fetch map for ${countryName}`);
+    return null;
+  }
+
+  return await res.blob();
 }

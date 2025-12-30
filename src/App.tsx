@@ -2,8 +2,7 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import type { Country } from "./config";
 import Countries from "./components/Countries";
-// import allCountries from "./countries.json";
-// import { fetchCountrySummary } from "./utils";
+import Filter from "./components/Filter";
 import { getCountries} from "./utils";
 
 function App() {
@@ -17,6 +16,7 @@ function App() {
   },[])
   return (
     <>
+      <Filter />
       <Countries countries={countries} />
     </>
   );
