@@ -1,36 +1,20 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import type { Country } from "./config";
 import Countries from "./components/Countries";
-import allCountries from "./countries.json";
-import { fetchCountrySummary } from "./utils";
-import { fetchCountrySummary } from "./utils";
+// import allCountries from "./countries.json";
+// import { fetchCountrySummary } from "./utils";
+import { getCountries} from "./utils";
 
 function App() {
-  const [countries, setCountries] = useState(allCountries);
+  const [countries, setCountries] = useState<Country[]>([]);
   // fetchCountrySummary(countries[0].name).then(res=>console.log(res.extract));
-  useEffect(() => {
-    async function populateDescriptions() {
-      const updatedCountries = await Promise.all(
-        countries.map(async (cntry) => {
-          if (cntry.countryDescription) {
-            return cntry;
-          } else {
-            const res = await fetchCountrySummary(cntry.name);
-            return {
-              ...cntry,
-              countryDescription: res.extract,
-            };
-          }
-        })
-      );
-
-      setCountries(updatedCountries);
-    }
-
-    populateDescriptions();
-  }, []);
-
+  useEffect(()=>{
+    (async ()=>{
+      const cntryAll = await getCountries();
+      setCountries(cntryAll);
+    })()
+  },[])
   return (
     <>
       <Countries countries={countries} />
