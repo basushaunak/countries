@@ -7,7 +7,6 @@ export default function Card({ country }: cardProps ) {
   const imageUrl = country.countryImage
     ? URL.createObjectURL(country.countryImage)
     : undefined;
- // const imageUrl = "#";
   return (
     <div className="card">
       <div className="div-card-image">
