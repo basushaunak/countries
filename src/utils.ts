@@ -4,7 +4,7 @@ type WikiSummary = {
   extract: string;
 };
 
-function readCountriesDB(): Promise<Country[]> {
+function readCountriesDB(continent: string): Promise<Country[]> {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open(DB_NAME, DB_VERSION);
 
@@ -25,11 +25,17 @@ function readCountriesDB(): Promise<Country[]> {
       const db = request.result;
       const transaction = db.transaction(STORE_NAME, "readonly");
       const store = transaction.objectStore(STORE_NAME);
-      const getAllRequest = store.getAll();
+      const index = store.index("continent");
+      let getAllRequest;
+      if (continent === "all") {
+        getAllRequest = store.getAll();
+      } else {
+        getAllRequest = index.getAll(continent);        
+      }
 
       getAllRequest.onsuccess = () => {
         const tmpCountries = getAllRequest.result;
-        db.close(); 
+        db.close();
         resolve(tmpCountries || []);
       };
 
@@ -38,9 +44,9 @@ function readCountriesDB(): Promise<Country[]> {
   });
 }
 
-async function readCountries(): Promise<Country[]> {
+async function readCountries(continent: string): Promise<Country[]> {
   try {
-    const response = await fetch("/data/countries.json");
+    const response = await fetch(`/data/${continent}.json`);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -72,22 +78,24 @@ function saveCountriesDB(countries: Country[]): Promise<void> {
 
       countries.forEach((country) => store.put(country));
 
-      transaction.oncomplete = () => {db.close();resolve()};
+      transaction.oncomplete = () => {
+        db.close();
+        resolve();
+      };
       transaction.onerror = () => reject("Failed to save countries");
       transaction.onabort = () => reject("Transaction aborted");
-
     };
   });
 }
 
-export async function getCountries(): Promise<Country[]> {
+export async function getCountries(continent: string): Promise<Country[]> {
   try {
-    let countries = await readCountriesDB();
+    let countries = await readCountriesDB(continent);
 
     if (countries.length === 0) {
       console.log("DB is empty. Fetching from JSON...");
 
-      countries = await readCountries();
+      countries = await readCountries(continent);
 
       await saveCountriesDB(countries);
       console.log("IndexedDB seeded successfully.");
@@ -95,7 +103,7 @@ export async function getCountries(): Promise<Country[]> {
       console.log("Data loaded from IndexedDB.");
     }
     const tmpCountriesWithInfo = await hydrateCountrySummary(countries);
-//    const tmpcountriesWithMap = await hydrateCountryMaps(tmpCountriesWithInfo);
+    //    const tmpcountriesWithMap = await hydrateCountryMaps(tmpCountriesWithInfo);
     await saveCountriesDB(tmpCountriesWithInfo);
     return tmpCountriesWithInfo;
   } catch (error) {
@@ -115,7 +123,7 @@ async function hydrateCountrySummary(countryList: Country[]) {
       try {
         const response = await fetchCountrySummary(country.name);
         return { ...country, countryDescription: response.extract };
-      } catch (err){
+      } catch (err) {
         console.warn(`Failed to hydrate ${country.name}`, err);
         return country;
       }
@@ -137,17 +145,14 @@ async function fetchCountrySummary(countryName: string): Promise<WikiSummary> {
   return res.json();
 }
 
-
 // Maps check and understand before incorporating.
 
-async function hydrateCountryMaps(
-  countries: Country[]
-): Promise<Country[]> {
+async function hydrateCountryMaps(countries: Country[]): Promise<Country[]> {
   return Promise.all(
     countries.map(async (country) => {
       if (country.countryImage) return country;
 
-      const blob = await fetchCountryMap(country.country);
+      const blob = await fetchCountryMap(country.name);
 
       return {
         ...country,
@@ -163,9 +168,7 @@ function getCountryMapUrl(countryName: string): string {
   return `https://commons.wikimedia.org/wiki/Special:FilePath/${encoded}%20location%20map.svg`;
 }
 
-async function fetchCountryMap(
-  countryName: string
-): Promise<Blob | null> {
+async function fetchCountryMap(countryName: string): Promise<Blob | null> {
   const url = getCountryMapUrl(countryName);
 
   const res = await fetch(url);
