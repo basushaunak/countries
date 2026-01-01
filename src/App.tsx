@@ -3,25 +3,31 @@ import "./App.css";
 import type { Country } from "./config";
 import Countries from "./components/Countries";
 import Filter from "./components/Filter";
-import { getCountries} from "./utils";
+import { getCountries } from "./utils";
 
 function App() {
-  const [countries, setCountries] = useState<Country[]>([]);
-  const [continent, setContinent]=useState("observer");
-  // fetchCountrySummary(countries[0].name).then(res=>console.log(res.extract));
-  function changeContinent(cont:string):void{
+  const [continent, setContinent] = useState<string>("");
+  const [allCountries, setAllCountries] = useState<Country[]>([]);
+  function changeContinent(cont: string): void {
     setContinent(cont);
   }
-  useEffect(()=>{
-    (async ()=>{
-      const cntryAll = await getCountries(continent);
-      setCountries(cntryAll);
-    })()
-  },[continent])
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      const cntryAll = await getCountries();
+      if (mounted) {
+        setAllCountries(cntryAll);
+        setContinent("Observer");
+      }
+    })();
+    return () => {
+      mounted = false;
+    };
+  }, []);
   return (
     <>
-      <Filter onChange={changeContinent} value={continent}/>
-      <Countries countries={countries} />
+      <Filter onChange={changeContinent} value={continent} />
+      <Countries countries={allCountries} continent={continent} />
     </>
   );
 }

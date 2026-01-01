@@ -2519,7 +2519,7 @@
     "countryDescription": "",
     "countryFlag": "🇵🇸",
     "countryImage": null,
-    "continent": "Asia"
+    "continent": "Observer"
   },
   {
     "name": "Holy See",
@@ -2532,6 +2532,6 @@
     "countryDescription": "",
     "countryFlag": "🇻🇦",
     "countryImage": null,
-    "continent": "Europe"
+    "continent": "Observer"
   }
 ]

@@ -4,7 +4,7 @@ type WikiSummary = {
   extract: string;
 };
 
-function readCountriesDB(continent: string): Promise<Country[]> {
+function readCountriesDB(): Promise<Country[]> {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open(DB_NAME, DB_VERSION);
 
@@ -25,14 +25,7 @@ function readCountriesDB(continent: string): Promise<Country[]> {
       const db = request.result;
       const transaction = db.transaction(STORE_NAME, "readonly");
       const store = transaction.objectStore(STORE_NAME);
-      const index = store.index("continent");
-      let getAllRequest;
-      if (continent === "all") {
-        getAllRequest = store.getAll();
-      } else {
-        getAllRequest = index.getAll(continent);        
-      }
-
+      const getAllRequest = store.getAll();
       getAllRequest.onsuccess = () => {
         const tmpCountries = getAllRequest.result;
         db.close();
@@ -44,9 +37,9 @@ function readCountriesDB(continent: string): Promise<Country[]> {
   });
 }
 
-async function readCountries(continent: string): Promise<Country[]> {
+async function readCountries(): Promise<Country[]> {
   try {
-    const response = await fetch(`/data/${continent}.json`);
+    const response = await fetch(`/data/countries.json`);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -88,14 +81,14 @@ function saveCountriesDB(countries: Country[]): Promise<void> {
   });
 }
 
-export async function getCountries(continent: string): Promise<Country[]> {
+export async function getCountries(): Promise<Country[]> {
   try {
-    let countries = await readCountriesDB(continent);
+    let countries = await readCountriesDB();
 
     if (countries.length === 0) {
       console.log("DB is empty. Fetching from JSON...");
 
-      countries = await readCountries(continent);
+      countries = await readCountries();
 
       await saveCountriesDB(countries);
       console.log("IndexedDB seeded successfully.");
@@ -103,9 +96,9 @@ export async function getCountries(continent: string): Promise<Country[]> {
       console.log("Data loaded from IndexedDB.");
     }
     const tmpCountriesWithInfo = await hydrateCountrySummary(countries);
-    //    const tmpcountriesWithMap = await hydrateCountryMaps(tmpCountriesWithInfo);
-    await saveCountriesDB(tmpCountriesWithInfo);
-    return tmpCountriesWithInfo;
+    const tmpcountriesWithMap = await hydrateCountryMaps(tmpCountriesWithInfo);
+    await saveCountriesDB(tmpcountriesWithMap);
+    return tmpcountriesWithMap;
   } catch (error) {
     console.error("Error in getCountriesData:", error);
     return [];
