@@ -96,9 +96,9 @@ export async function getCountries(): Promise<Country[]> {
       console.log("Data loaded from IndexedDB.");
     }
     const tmpCountriesWithInfo = await hydrateCountrySummary(countries);
-    const tmpcountriesWithMap = await hydrateCountryMaps(tmpCountriesWithInfo);
-    await saveCountriesDB(tmpcountriesWithMap);
-    return tmpcountriesWithMap;
+//    const tmpcountriesWithMap = await hydrateCountryMaps(tmpCountriesWithInfo);
+    await saveCountriesDB(tmpCountriesWithInfo);
+    return tmpCountriesWithInfo;
   } catch (error) {
     console.error("Error in getCountriesData:", error);
     return [];
